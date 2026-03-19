@@ -1,0 +1,278 @@
+.lobby-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #1A1A2E;
+}
+
+.lobby-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(to right, #2A2A3E 1px, transparent 1px),
+    linear-gradient(to bottom, #2A2A3E 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.lobby-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  max-width: 400px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Hide scrollbar but keep scrolling */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.lobby-back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: var(--stone);
+  color: var(--white);
+  border: none;
+  padding: 10px 14px;
+  border-top: 3px solid #A0A0A0;
+  border-left: 3px solid #A0A0A0;
+  border-right: 3px solid #3F3F3F;
+  border-bottom: 3px solid #3F3F3F;
+  cursor: pointer;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+}
+
+.lobby-back:active {
+  border-top: 3px solid #3F3F3F;
+  border-left: 3px solid #3F3F3F;
+  border-right: 3px solid #A0A0A0;
+  border-bottom: 3px solid #A0A0A0;
+  transform: translate(2px, 2px);
+}
+
+.lobby-mode {
+  font-size: 10px;
+  color: #7F7F7F;
+  letter-spacing: 2px;
+  margin-top: 20px;
+}
+
+.lobby-title {
+  font-size: 14px;
+  color: #7F7F7F;
+  margin-bottom: 8px;
+}
+
+.lobby-code {
+  font-size: 48px;
+  color: var(--gold);
+  text-shadow: 6px 6px 0 #000;
+  letter-spacing: 8px;
+}
+
+.copy-button {
+  margin-top: 8px;
+}
+
+.lobby-share {
+  text-align: center;
+  margin: 16px 0;
+}
+
+.lobby-share p {
+  font-size: 8px;
+  color: #7F7F7F;
+  line-height: 1.6;
+}
+
+.players-section {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.players-title {
+  font-size: 10px;
+  color: var(--gold);
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.players-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.player-slot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #252538;
+  border: 3px solid #3A3A4E;
+}
+
+.player-slot.empty {
+  opacity: 0.5;
+}
+
+.player-name {
+  font-size: 10px;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.host-badge {
+  font-size: 7px;
+  color: var(--gold);
+  background: #3A3A2E;
+  padding: 2px 6px;
+  border: 1px solid var(--gold);
+}
+
+.player-status {
+  font-size: 8px;
+  padding: 4px 8px;
+}
+
+.player-status.ready {
+  color: #4AE34A;
+  background: #1A3A1A;
+  border: 2px solid #2A5A2A;
+}
+
+.player-status.waiting {
+  color: #7F7F7F;
+  background: #2A2A2A;
+  border: 2px solid #3A3A3A;
+}
+
+.start-button {
+  margin-top: 24px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.start-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.start-button.disabled:hover {
+  transform: none;
+}
+
+.waiting-host {
+  font-size: 10px;
+  color: var(--gold);
+  margin-top: 24px;
+  animation: pulse 1.5s infinite;
+}
+
+.lobby-loading {
+  font-size: 12px;
+  color: var(--gold);
+  animation: pulse 1s infinite;
+}
+
+/* Join mode styles */
+.join-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+  width: 100%;
+  max-width: 280px;
+}
+
+/* Choice section styles */
+.choice-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.choice-button {
+  width: 100%;
+}
+
+.choice-or {
+  font-size: 10px;
+  color: #7F7F7F;
+  margin: 8px 0;
+}
+
+.join-label {
+  font-size: 10px;
+  color: #7F7F7F;
+}
+
+.join-input {
+  width: 100%;
+  padding: 16px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 8px;
+  background: #252538;
+  color: var(--gold);
+  border: 3px solid #3A3A4E;
+  border-top-color: #1A1A2E;
+  border-left-color: #1A1A2E;
+  outline: none;
+}
+
+.join-input:focus {
+  border-color: var(--gold);
+}
+
+.join-input::placeholder {
+  color: #4A4A5E;
+}
+
+.join-error {
+  font-size: 8px;
+  color: #CC3300;
+}
+
+.join-button {
+  width: 100%;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Hide scrollbar for webkit browsers (Chrome, Safari, Edge) */
+.lobby-content::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .lobby-code {
+    font-size: 36px;
+  }
+}

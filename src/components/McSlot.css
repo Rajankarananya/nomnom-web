@@ -1,0 +1,20 @@
+.mc-slot-component {
+  background: var(--slot-bg);
+  border-top: 3px solid #555;
+  border-left: 3px solid #555;
+  border-right: 3px solid #111;
+  border-bottom: 3px solid #111;
+  padding: 16px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.mc-slot-component:hover {
+  background: #2A2A3E;
+}
+
+.mc-slot-component--active {
+  background: #2A2A4E;
+  border-top-color: var(--gold);
+  border-left-color: var(--gold);
+}

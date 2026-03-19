@@ -1,0 +1,99 @@
+.food-card {
+  position: absolute;
+  width: 300px;
+  max-width: 90vw;
+  background: var(--slot-bg);
+  border: 4px solid #000;
+  border-top-color: #444;
+  border-left-color: #444;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  user-select: none;
+  touch-action: none;
+}
+
+.food-card--dragging {
+  cursor: grabbing;
+}
+
+.food-card-image {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.food-card-info {
+  background: var(--cream);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.food-card-name {
+  font-size: 12px;
+  color: var(--shadow);
+  text-align: center;
+}
+
+.food-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.food-card-tag {
+  background: var(--slot-bg);
+  color: var(--white);
+  padding: 6px 10px;
+  font-size: 6px;
+}
+
+/* Stamps */
+.stamp {
+  position: absolute;
+  top: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 8px 16px;
+  border: 4px solid;
+  z-index: 10;
+  transform: rotate(-15deg);
+}
+
+.stamp--yum {
+  right: 20px;
+  color: var(--grass);
+  border-color: var(--grass);
+  background: rgba(93, 138, 50, 0.2);
+}
+
+.stamp--nope {
+  left: 20px;
+  color: var(--red);
+  border-color: var(--red);
+  background: rgba(204, 51, 0, 0.2);
+  transform: rotate(15deg);
+}
+
+@media (max-width: 480px) {
+  .food-card {
+    width: 280px;
+  }
+
+  .food-card-image {
+    height: 180px;
+  }
+
+  .food-card-name {
+    font-size: 10px;
+  }
+
+  .stamp {
+    font-size: 18px;
+  }
+}

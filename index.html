@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#3c6711",
+              "primary-container": "#548029",
+              "primary-fixed": "#bef28c",
+              "primary-fixed-dim": "#a3d573",
+              "on-primary-container": "#f9ffeb",
+              "secondary": "#7b563a",
+              "secondary-container": "#ffcdaa",
+              "on-secondary-container": "#7a5539",
+              "tertiary": "#715c10",
+              "tertiary-container": "#c3a957",
+              "surface": "#faf9f9",
+              "surface-container": "#efeded",
+              "surface-container-low": "#f5f3f3",
+              "surface-container-high": "#e9e8e7",
+              "surface-container-highest": "#e3e2e2",
+              "surface-dim": "#dbdad9",
+              "on-surface": "#1b1c1c",
+              "on-surface-variant": "#43493b",
+              "outline": "#73796a",
+              "outline-variant": "#c3c9b7",
+              "error": "#ba1a1a",
+              "on-error": "#ffffff",
+            },
+            fontFamily: {
+              headline: ["'Press Start 2P'"],
+              body: ["'Press Start 2P'"],
+              label: ["'Press Start 2P'"],
+            },
+            borderRadius: { DEFAULT: "0px", lg: "0px", xl: "0px", full: "0px" },
+          },
+        },
+      }
+    </script>
+    <title>nomnom.</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

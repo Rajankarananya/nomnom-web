@@ -1,0 +1,212 @@
+:root {
+  --dirt: #866043;
+  --grass: #5D8A32;
+  --stone: #7F7F7F;
+  --wood: #A0722A;
+  --sand: #DBC06B;
+  --sky: #87CEEB;
+  --night: #0D1117;
+  --cream: #F5F0E8;
+  --gold: #FFD700;
+  --red: #CC3300;
+  --green: #336600;
+  --white: #F0F0F0;
+  --shadow: #1A1A1A;
+  --slot-bg: #1A1A2E;
+  --stone-dark: #4A4A4A;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Press Start 2P', monospace;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+button {
+  font-family: 'Press Start 2P', monospace;
+  cursor: pointer;
+}
+
+/* Minecraft button base */
+.mc-button {
+  font-family: 'Press Start 2P', monospace;
+  background: var(--stone);
+  color: var(--white);
+  border: none;
+  padding: 12px 20px;
+  border-top: 4px solid #A0A0A0;
+  border-left: 4px solid #A0A0A0;
+  border-right: 4px solid #3F3F3F;
+  border-bottom: 4px solid #3F3F3F;
+  cursor: pointer;
+  image-rendering: pixelated;
+  font-size: 10px;
+  text-transform: uppercase;
+  transition: none;
+}
+
+.mc-button:hover {
+  background: #8F8F8F;
+}
+
+.mc-button:active {
+  border-top: 4px solid #3F3F3F;
+  border-left: 4px solid #3F3F3F;
+  border-right: 4px solid #A0A0A0;
+  border-bottom: 4px solid #A0A0A0;
+  transform: translate(2px, 2px);
+}
+
+.mc-button.green {
+  background: var(--grass);
+  border-top-color: #7DAA52;
+  border-left-color: #7DAA52;
+  border-right-color: #3D6A12;
+  border-bottom-color: #3D6A12;
+}
+
+.mc-button.green:hover {
+  background: #6D9A42;
+}
+
+.mc-button.red {
+  background: var(--red);
+  border-top-color: #EC5330;
+  border-left-color: #EC5330;
+  border-right-color: #8C1300;
+  border-bottom-color: #8C1300;
+}
+
+.mc-button.red:hover {
+  background: #BC2300;
+}
+
+/* Minecraft inventory slot */
+.mc-slot {
+  background: var(--slot-bg);
+  border-top: 3px solid #555;
+  border-left: 3px solid #555;
+  border-right: 3px solid #111;
+  border-bottom: 3px solid #111;
+}
+
+.mc-slot:hover {
+  background: #2A2A3E;
+}
+
+/* Pixel text shadow */
+.pixel-shadow {
+  text-shadow: 4px 4px 0 var(--shadow);
+}
+
+/* Animations */
+@keyframes blockSlam {
+  0% { transform: scaleY(0); }
+  60% { transform: scaleY(1.2); }
+  100% { transform: scaleY(1); }
+}
+
+@keyframes steamRise {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-20px); opacity: 0; }
+}
+
+@keyframes xpFill {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes slideInFromTop {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes slideOutToTop {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100%); }
+}
+
+@keyframes scatter {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
+  100% { opacity: 0; transform: translate(var(--scatter-x, 50px), var(--scatter-y, 50px)) rotate(var(--scatter-r, 45deg)); }
+}
+
+@keyframes fallIn {
+  0% { transform: translateY(-100px); opacity: 0; }
+  70% { transform: translateY(10px); }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Swipe screen styles */
+.pixel-grid {
+  background-image:
+    linear-gradient(to right, #404040 1px, transparent 1px),
+    linear-gradient(to bottom, #404040 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.pixel-shadow-box {
+  box-shadow: 4px 4px 0px #1a1a1a;
+}
+
+.pixel-shadow-inset {
+  box-shadow: inset 4px 4px 0px #1a1a1a, inset -4px -4px 0px #ffffff20;
+}
+
+.xp-bar-container {
+  image-rendering: pixelated;
+  border: 4px solid #1a1a1a;
+}
+
+.xp-bar-fill-gradient {
+  background: repeating-linear-gradient(
+    to right, #bef28c, #bef28c 10px, #a3d573 10px, #a3d573 20px
+  );
+}
+
+.dithered-bg {
+  background-image: radial-gradient(#3c6711 2px, transparent 2px);
+  background-size: 8px 8px;
+  background-color: #548029;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.material-symbols-outlined.filled {
+  font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;
+}
+
+.material-symbols-outlined.bold {
+  font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 24;
+}

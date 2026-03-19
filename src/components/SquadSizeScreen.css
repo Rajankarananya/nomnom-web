@@ -1,0 +1,164 @@
+.squad-size-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #1A1A2E;
+}
+
+.squad-size-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, #2A2A3E 1px, transparent 1px),
+    linear-gradient(to bottom, #2A2A3E 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+
+.squad-size-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 500px;
+  width: 100%;
+}
+
+.squad-size-back {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--gold);
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 20;
+  transition: transform 0.2s;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.squad-size-back:hover {
+  transform: translateY(-0.25rem);
+}
+
+.squad-size-back:active {
+  transform: translateY(0.25rem);
+}
+
+.squad-size-title {
+  font-size: 1.25rem;
+  color: var(--gold);
+  text-align: center;
+  letter-spacing: 0.1em;
+  text-shadow: 4px 4px 0 #000;
+  font-family: 'Press Start 2P', monospace;
+  margin-top: 1rem;
+}
+
+.squad-size-subtitle {
+  font-size: 0.625rem;
+  color: #7F7F7F;
+  text-align: center;
+  letter-spacing: 0.05em;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.size-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.size-button {
+  padding: 1.5rem 1rem;
+  font-size: 1rem;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+  background: #252538;
+  border: 3px solid #3A3A4E;
+  cursor: pointer;
+  color: var(--gold);
+  font-family: 'Press Start 2P', monospace;
+  font-weight: 600;
+}
+
+.size-button::after {
+  content: 'PLAYERS';
+  display: block;
+  font-size: 0.5rem;
+  color: #7F7F7F;
+  letter-spacing: 0.05em;
+}
+
+.size-button:hover {
+  background: #2E2E45;
+  transform: translateY(-4px);
+  border-color: var(--gold);
+}
+
+.size-button--selected {
+  background: #3A3A5E;
+  border-color: var(--gold);
+  transform: scale(1.05);
+}
+
+.size-button--selected:hover {
+  transform: translateY(-4px) scale(1.05);
+}
+
+.size-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  animation: flash 0.3s ease-out forwards;
+  pointer-events: none;
+  z-index: 100;
+}
+
+@keyframes flash {
+  0% { opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0; }
+}
+
+@media (max-width: 640px) {
+  .squad-size-content {
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .squad-size-title {
+    font-size: 1rem;
+  }
+
+  .size-options {
+    gap: 0.75rem;
+  }
+
+  .size-button {
+    font-size: 0.85rem;
+    min-height: 80px;
+  }
+
+  .size-button::after {
+    font-size: 0.4rem;
+  }
+}

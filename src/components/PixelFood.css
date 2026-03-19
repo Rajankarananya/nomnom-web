@@ -1,0 +1,59 @@
+.pixel-food {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.pixel-food-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pixel-steve {
+  image-rendering: pixelated;
+}
+
+/* Steam animation for ramen */
+.pixel-steam {
+  position: relative;
+  height: 24px;
+  margin-bottom: 4px;
+}
+
+.steam-column {
+  position: absolute;
+  bottom: 0;
+  width: 2px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.5);
+  animation: steamRisePixel 1s infinite steps(4);
+}
+
+@keyframes steamRisePixel {
+  0% {
+    transform: translateY(0);
+    opacity: 0.8;
+    height: 8px;
+  }
+  25% {
+    transform: translateY(-4px);
+    opacity: 0.6;
+    height: 12px;
+  }
+  50% {
+    transform: translateY(-8px);
+    opacity: 0.4;
+    height: 16px;
+  }
+  75% {
+    transform: translateY(-12px);
+    opacity: 0.2;
+    height: 12px;
+  }
+  100% {
+    transform: translateY(-16px);
+    opacity: 0;
+    height: 8px;
+  }
+}

@@ -1,0 +1,84 @@
+.mc-btn {
+  font-family: 'Press Start 2P', monospace;
+  background: var(--stone);
+  color: var(--white);
+  border: none;
+  padding: 12px 20px;
+  border-top: 4px solid #A0A0A0;
+  border-left: 4px solid #A0A0A0;
+  border-right: 4px solid #3F3F3F;
+  border-bottom: 4px solid #3F3F3F;
+  cursor: pointer;
+  image-rendering: pixelated;
+  font-size: 10px;
+  text-transform: uppercase;
+  transition: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.mc-btn:hover {
+  background: #8F8F8F;
+}
+
+.mc-btn:active {
+  border-top: 4px solid #3F3F3F;
+  border-left: 4px solid #3F3F3F;
+  border-right: 4px solid #A0A0A0;
+  border-bottom: 4px solid #A0A0A0;
+  transform: translate(2px, 2px);
+}
+
+.mc-btn--green {
+  background: var(--grass);
+  border-top-color: #7DAA52;
+  border-left-color: #7DAA52;
+  border-right-color: #3D6A12;
+  border-bottom-color: #3D6A12;
+}
+
+.mc-btn--green:hover {
+  background: #6D9A42;
+}
+
+.mc-btn--red {
+  background: var(--red);
+  border-top-color: #EC5330;
+  border-left-color: #EC5330;
+  border-right-color: #8C1300;
+  border-bottom-color: #8C1300;
+}
+
+.mc-btn--red:hover {
+  background: #BC2300;
+}
+
+.mc-btn--gold {
+  background: #B8860B;
+  border-top-color: #DAA520;
+  border-left-color: #DAA520;
+  border-right-color: #8B6914;
+  border-bottom-color: #8B6914;
+}
+
+.mc-btn--gold:hover {
+  background: #CD950C;
+}
+
+.mc-btn--small {
+  padding: 8px 12px;
+  font-size: 8px;
+}
+
+.mc-btn--large {
+  padding: 16px 28px;
+  font-size: 12px;
+}
+
+.mc-btn--icon {
+  padding: 12px;
+  min-width: 48px;
+  min-height: 48px;
+}
