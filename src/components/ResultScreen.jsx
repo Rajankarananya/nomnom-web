@@ -1,16 +1,14 @@
 import { useState, useEffect } from 'react';
-import PixelFood from './PixelFood';
 import McButton from './McButton';
-import { getFoodById, FOODS } from '../data/foods';
 import { resetRoom } from '../hooks/useRoom';
 import './ResultScreen.css';
 
 function StarField() {
   const stars = Array.from({ length: 40 }, (_, i) => ({
     id: i,
-    left: Math.random() * 100,
-    top: Math.random() * 100,
-    delay: Math.random() * 2
+    left: (i * 23) % 100,
+    top: (i * 41) % 100,
+    delay: ((i * 17) % 20) / 10,
   }));
 
   return (
@@ -22,7 +20,7 @@ function StarField() {
           style={{
             left: `${star.left}%`,
             top: `${star.top}%`,
-            animationDelay: `${star.delay}s`
+            animationDelay: `${star.delay}s`,
           }}
         />
       ))}
@@ -39,8 +37,13 @@ function AchievementToast({ food, onHide }) {
   return (
     <div className="achievement-toast">
       <div className="achievement-icon">
-        <PixelFood food={food.key} size="small" />
+        <img
+          src={food.image}
+          alt={food.name}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', imageRendering: 'pixelated' }}
+        />
       </div>
+
       <div className="achievement-text">
         <span className="achievement-title">MEAL UNLOCKED!</span>
         <span className="achievement-subtitle">{food.name}</span>
@@ -49,21 +52,26 @@ function AchievementToast({ food, onHide }) {
   );
 }
 
-export default function ResultScreen({ winner, matchCount, totalPlayers, mode, roomCode, onPlayAgain, onNewGame }) {
+export default function ResultScreen({
+  winner,
+  winnerFood,
+  matchCount,
+  totalPlayers,
+  mode,
+  roomCode,
+  onPlayAgain,
+  onNewGame,
+}) {
   const [showAchievement, setShowAchievement] = useState(true);
   const [xpProgress, setXpProgress] = useState(0);
   const [isResetting, setIsResetting] = useState(false);
 
-  // Get winner food object from id
-  const winnerFood = winner ? getFoodById(winner) : null;
   const isMultiplayer = mode !== 'solo' && roomCode;
   const isFullMatch = matchCount === totalPlayers;
-  const hasNoMatches = !winner;
+  const hasNoMatches = !winner || !winnerFood;
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setXpProgress(100);
-    }, 500);
+    const timer = setTimeout(() => setXpProgress(100), 500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -84,24 +92,16 @@ export default function ResultScreen({ winner, matchCount, totalPlayers, mode, r
   };
 
   const getSubtitle = () => {
-    if (hasNoMatches) {
-      return 'NO MATCHES FOUND';
-    }
-
+    if (hasNoMatches) return 'NO MATCHES FOUND';
     if (isMultiplayer) {
-      if (isFullMatch) {
-        return `UNANIMOUS! ${matchCount}/${totalPlayers} AGREED`;
-      }
+      if (isFullMatch) return `UNANIMOUS! ${matchCount}/${totalPlayers} AGREED`;
       return `${matchCount}/${totalPlayers} PLAYERS AGREED`;
     }
-
     return `YOU SWIPED RIGHT ON ${matchCount} FOOD${matchCount !== 1 ? 'S' : ''}`;
   };
 
   const getLabel = () => {
-    if (hasNoMatches) {
-      return '';
-    }
+    if (hasNoMatches) return '';
     return isMultiplayer ? 'GROUP DECISION:' : "TONIGHT'S PICK:";
   };
 
@@ -110,10 +110,7 @@ export default function ResultScreen({ winner, matchCount, totalPlayers, mode, r
       <StarField />
 
       {showAchievement && winnerFood && (
-        <AchievementToast
-          food={winnerFood}
-          onHide={() => setShowAchievement(false)}
-        />
+        <AchievementToast food={winnerFood} onHide={() => setShowAchievement(false)} />
       )}
 
       <div className="result-xp-bar">
@@ -124,16 +121,18 @@ export default function ResultScreen({ winner, matchCount, totalPlayers, mode, r
         {hasNoMatches ? (
           <>
             <p className="result-label" style={{ fontSize: '3rem', marginBottom: '2rem' }}>
-              🤷
+              ??
             </p>
             <p className="result-subtitle">NO MATCHES FOUND</p>
-            <p style={{
-              fontSize: '0.75rem',
-              color: '#999',
-              marginTop: '1rem',
-              marginBottom: '2rem',
-              textAlign: 'center'
-            }}>
+            <p
+              style={{
+                fontSize: '0.75rem',
+                color: '#999',
+                marginTop: '1rem',
+                marginBottom: '2rem',
+                textAlign: 'center',
+              }}
+            >
               TRY AGAIN WITH LESS PICKY{isMultiplayer ? ' PLAYERS' : ' PREFERENCES'}
             </p>
           </>
@@ -142,15 +141,14 @@ export default function ResultScreen({ winner, matchCount, totalPlayers, mode, r
             {getLabel() && <p className="result-label">{getLabel()}</p>}
 
             <div className="result-food">
-              <div
-                className="result-food-frame"
-                style={{ backgroundColor: winnerFood.bgColor }}
-              >
-                <PixelFood food={winnerFood.key} size="large" />
+              <div className="result-food-frame">
+                <img
+                  src={winnerFood.image}
+                  alt={winnerFood.name}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', imageRendering: 'pixelated' }}
+                />
+                {isFullMatch && isMultiplayer && <div className="perfect-match-badge">PERFECT!</div>}
               </div>
-              {isFullMatch && isMultiplayer && (
-                <div className="perfect-match-badge">PERFECT!</div>
-              )}
             </div>
 
             <h1 className="result-name">{winnerFood.name}</h1>

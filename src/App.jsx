@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import IntroScreen from './components/IntroScreen';
 import ModesScreen from './components/ModesScreen';
+import FilterScreen from './components/FilterScreen';
 import SquadSizeScreen from './components/SquadSizeScreen';
 import LobbyScreen from './components/LobbyScreen';
 import SwipeScreen from './components/SwipeScreen';
@@ -12,33 +13,34 @@ import './App.css';
 const SCREENS = {
   INTRO: 'intro',
   MODES: 'modes',
+  FILTER: 'filter',
   SQUAD_SIZE: 'squadSize',
   LOBBY: 'lobby',
   SWIPE: 'swipe',
-  RESULT: 'result'
+  RESULT: 'result',
 };
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState(SCREENS.INTRO);
   const [selectedMode, setSelectedMode] = useState(null);
   const [selectedSquadSize, setSelectedSquadSize] = useState(null);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [roomCode, setRoomCode] = useState(null);
   const [playerId, setPlayerId] = useState(null);
   const [votes, setVotes] = useState({});
   const [winner, setWinner] = useState(null);
+  const [winnerFood, setWinnerFood] = useState(null);
   const [matchCount, setMatchCount] = useState(0);
   const [totalPlayers, setTotalPlayers] = useState(1);
 
-  // Cleanup old rooms on app load
   useEffect(() => {
     cleanupOldRooms().catch(console.error);
   }, []);
 
-  // Watch room for multiplayer results
   useEffect(() => {
     if (!roomCode || selectedMode === 'solo') return;
 
-    const unsubscribe = watchRoom(roomCode, (room) => {
+    const unsubscribe = watchRoom(roomCode, room => {
       if (room && room.status === 'done') {
         setWinner(room.winner);
         setMatchCount(room.matchCount || 0);
@@ -54,25 +56,22 @@ function App() {
     setCurrentScreen(SCREENS.MODES);
   };
 
-  const handleSelectMode = async (mode) => {
+  const handleSelectMode = mode => {
     setSelectedMode(mode);
 
     if (mode === 'solo') {
-      // Solo mode - go straight to swipe
-      setCurrentScreen(SCREENS.SWIPE);
+      setCurrentScreen(SCREENS.FILTER);
     } else if (mode === 'couple') {
-      // Couple mode - go to lobby (2 players fixed)
       setSelectedSquadSize(2);
       setRoomCode(null);
       setPlayerId(null);
       setCurrentScreen(SCREENS.LOBBY);
     } else if (mode === 'squad') {
-      // Squad mode - ask for squad size first
       setCurrentScreen(SCREENS.SQUAD_SIZE);
     }
   };
 
-  const handleSelectSquadSize = (size) => {
+  const handleSelectSquadSize = size => {
     setSelectedSquadSize(size);
     setRoomCode(null);
     setPlayerId(null);
@@ -94,43 +93,50 @@ function App() {
   };
 
   const handleLobbyStart = () => {
+    setCurrentScreen(SCREENS.FILTER);
+  };
+
+  const handleFilterConfirm = cats => {
+    setSelectedCategories(cats);
     setCurrentScreen(SCREENS.SWIPE);
   };
 
   const handleSwipeComplete = (votesData, likedFoods) => {
     setVotes(votesData);
 
-    // For solo mode, pick winner locally
     if (selectedMode === 'solo') {
-      let winner = null;
+      let winnerId = null;
+      let winnerMeal = null;
 
       if (likedFoods.length > 0) {
-        const randomWinner = likedFoods[Math.floor(Math.random() * likedFoods.length)];
-        winner = randomWinner.id;
+        winnerMeal = likedFoods[Math.floor(Math.random() * likedFoods.length)];
+        winnerId = winnerMeal.id;
       }
-      // If no foods liked, winner stays null
 
-      setWinner(winner);
+      setWinner(winnerId);
+      setWinnerFood(winnerMeal);
       setMatchCount(likedFoods.length);
       setTotalPlayers(1);
       setCurrentScreen(SCREENS.RESULT);
     }
-    // For multiplayer, wait for watchRoom to detect 'done' status
   };
 
   const handlePlayAgain = () => {
     setVotes({});
     setWinner(null);
+    setWinnerFood(null);
     setCurrentScreen(SCREENS.SWIPE);
   };
 
   const handleNewGame = () => {
     setSelectedMode(null);
     setSelectedSquadSize(null);
+    setSelectedCategories([]);
     setRoomCode(null);
     setPlayerId(null);
     setVotes({});
     setWinner(null);
+    setWinnerFood(null);
     setMatchCount(0);
     setTotalPlayers(1);
     setCurrentScreen(SCREENS.INTRO);
@@ -144,11 +150,10 @@ function App() {
 
   return (
     <div className="app">
-      {currentScreen === SCREENS.INTRO && (
-        <IntroScreen onStart={handleStart} />
-      )}
-      {currentScreen === SCREENS.MODES && (
-        <ModesScreen onSelectMode={handleSelectMode} />
+      {currentScreen === SCREENS.INTRO && <IntroScreen onStart={handleStart} />}
+      {currentScreen === SCREENS.MODES && <ModesScreen onSelectMode={handleSelectMode} />}
+      {currentScreen === SCREENS.FILTER && (
+        <FilterScreen onConfirm={handleFilterConfirm} onBack={() => setCurrentScreen(SCREENS.MODES)} />
       )}
       {currentScreen === SCREENS.SQUAD_SIZE && (
         <SquadSizeScreen onSelectSize={handleSelectSquadSize} onBack={handleBackFromSquadSize} />
@@ -170,6 +175,7 @@ function App() {
           mode={selectedMode}
           roomCode={roomCode}
           playerId={playerId}
+          categories={selectedCategories}
           onComplete={handleSwipeComplete}
           onBack={handleBackToModes}
         />
@@ -177,6 +183,7 @@ function App() {
       {currentScreen === SCREENS.RESULT && (
         <ResultScreen
           winner={winner}
+          winnerFood={winnerFood}
           matchCount={matchCount}
           totalPlayers={totalPlayers}
           mode={selectedMode}

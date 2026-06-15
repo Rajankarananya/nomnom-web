@@ -1,17 +1,4 @@
-// Shared food data for the app
-export const FOODS = [
-  { id: 'pizza', key: 'pizza', name: 'Supreme Pizza', bgColor: '#8B4513', tags: ['Epic', 'Cheesy', 'Classic'] },
-  { id: 'ramen', key: 'ramen', name: 'Spicy Ramen', bgColor: '#8B0000', tags: ['Hot', 'Noodles', 'Warm'] },
-  { id: 'butterChicken', key: 'butterChicken', name: 'Butter Chicken', bgColor: '#D2691E', tags: ['Creamy', 'Indian', 'Spicy'] },
-  { id: 'avocadoToast', key: 'avocadoToast', name: 'Avocado Toast', bgColor: '#556B2F', tags: ['Healthy', 'Trendy', 'Fresh'] },
-  { id: 'tacos', key: 'tacos', name: 'Street Tacos', bgColor: '#8B4513', tags: ['Mexican', 'Crunchy', 'Fun'] },
-  { id: 'sushi', key: 'sushi', name: 'Dragon Roll', bgColor: '#2F4F4F', tags: ['Fresh', 'Light', 'Japanese'] },
-  { id: 'burger', key: 'burger', name: 'Smash Burger', bgColor: '#8B4513', tags: ['Juicy', 'Classic', 'American'] },
-  { id: 'padThai', key: 'padThai', name: 'Pad Thai', bgColor: '#8B6914', tags: ['Thai', 'Noodles', 'Sweet'] },
-  { id: 'pasta', key: 'pasta', name: 'Truffle Pasta', bgColor: '#556B2F', tags: ['Italian', 'Comfort', 'Hearty'] },
-  { id: 'falafel', key: 'falafel', name: 'Falafel Wrap', bgColor: '#8B6914', tags: ['Crispy', 'Vegan', 'Fresh'] },
-];
-
+// Smart shuffle helper
 export function shuffleArray(array) {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -21,6 +8,53 @@ export function shuffleArray(array) {
   return shuffled;
 }
 
-export function getFoodById(id) {
-  return FOODS.find(food => food.id === id);
+// Fetch a fresh deck from MealDB every session
+export async function fetchFoodDeck(deckSize = 12, categories = []) {
+  console.log('categories received:', categories);
+
+  const TYPE_CATEGORIES = ['Chicken','Beef','Seafood','Vegetarian','Dessert','Lamb','Pork','Miscellaneous','Pasta'];
+  const CUISINE_AREAS = ['Indian','Italian','Mexican','Chinese','Japanese','Greek','American','Moroccan'];
+
+  const types = categories.filter(c => TYPE_CATEGORIES.includes(c));
+  const cuisines = categories.filter(c => CUISINE_AREAS.includes(c));
+
+  const typePromises = types.map(cat =>
+    fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${cat}`)
+      .then(r => r.json()).then(d => d.meals || [])
+  );
+
+  const cuisinePromises = cuisines.map(area =>
+    fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`)
+      .then(r => r.json()).then(d => d.meals || [])
+  );
+
+  const allPromises = [...typePromises, ...cuisinePromises];
+
+  // fallback
+  if (allPromises.length === 0) {
+    allPromises.push(
+      fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=Chicken`)
+        .then(r => r.json()).then(d => d.meals || []),
+      fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=Vegetarian`)
+        .then(r => r.json()).then(d => d.meals || [])
+    );
+  }
+
+  const results = await Promise.all(allPromises);
+  const allMeals = results.flat();
+
+  return shuffleArray(allMeals)
+    .slice(0, deckSize)
+    .map(meal => ({
+      id: meal.idMeal,
+      name: meal.strMeal,
+      image: meal.strMealThumb + '/preview',
+      tags: categories.length > 0 ? categories : ['Fresh'],
+      cuisine: cuisines[0] || types[0] || 'Mixed',
+    }));
+}
+
+// Keep this so ResultScreen doesn't break
+export function getFoodById(id, foods) {
+  return foods.find((food) => food.id === id);
 }
